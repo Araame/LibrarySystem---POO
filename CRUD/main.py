@@ -1,4 +1,5 @@
 import mysql.connector
+import re
 
 class DatabaseManager:
     def __init__(self):
@@ -16,8 +17,7 @@ class DatabaseManager:
         self.cursor.close()
 
 class Book:
-    def __init__(self,id_book, title, author, avalaibility = True ):
-        self.id_book = id_book
+    def __init__(self, title, author, avalaibility = True ):
         self.title = title
         self.author = author
         self.avalaibility = avalaibility
@@ -26,12 +26,47 @@ class Book:
 
 class BookManager():
     db= DatabaseManager()
-    def add_book(self, title, author):
-        query = """INSERT INTO Books (title, author) values (%s, %s )"""
-        self.db.cursor.execute(query, (title,author))
-        self.db.commit()
-        return self.db.cursor.lastrowid
-    
+    def add_book(self, book):
+            try:
+                while True:
+                    title = input("Title : ").capitalize()
+                    if re.match(r'[a-zA-Z0-9]+$', title):
+                        break
+                    else:
+                        raise ValueError("Title must be written by letters and numbers")
+                
+                while True:
+                    author = input("Author : ").capitalize()
+                    if re.match(r'[a-zA]')
+                    break
 
-bookmanager = BookManager()
-bookmanager.add_book("Os de Mor LAM", "Birago DIOP")
+                query = """INSERT INTO Books (title, author) values (%s, %s )"""
+                self.db.cursor.execute(query, (book.title, book.author))
+                self.db.commit()
+                print()
+                return True
+            except Exception as e :
+                print()
+
+
+class Menu:
+    book_manager = BookManager()
+
+
+    def start(self):
+        print("===MENU=== \n" \
+        "1. Add a book \n")
+
+
+        choice = input("Choice : ").strip()
+        match choice :
+            case "1":
+                title = input("Title : ").capitalize()
+                author = input("Author : ").capitalize()
+
+                book = Book(title, author)
+                print(self.book_manager.add_book(book))
+
+
+menu = Menu()
+menu.start()
